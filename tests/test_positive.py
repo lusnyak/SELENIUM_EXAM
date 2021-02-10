@@ -44,3 +44,18 @@ class TestPositiveContacts(Base):
         contact.click_submit()
         el = contact.get_element_by_xpath(contact.feedback_success_popup_xpath)
         assert el is not None, 'Feedback green popup not show'
+
+
+    @pytest.mark.clear_inputs
+    @pytest.mark.parametrize("name, email, phone, country, company, message", [("Lus","lusine@example.com", "0987654321", "Armenia", "BDG", "My test")])
+    def test_is_all_inputs_clear(self, name, email, phone, country, company, message):
+        driver = self.driver
+        contact = ContactsPage(driver)
+        contact.enter_name(name)
+        contact.enter_email(email)
+        contact.enter_phone(phone)
+        contact.enter_country(country)
+        contact.enter_company(company)
+        contact.enter_message(message)
+        contact.click_clear()
+        assert contact.is_all_inputs_empty(), 'Not all fields empty'
