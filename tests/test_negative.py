@@ -3,12 +3,16 @@ myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
 
 import pytest
+import allure
 from pages.contacts import ContactsPage
 from pages.base_page import Base
+
 
 @pytest.mark.usefixtures('set_up')
 class TestNegativeContacts(Base):
 
+    @allure.title("Test name error popup")
+    @allure.description("Show error popup with name error message")
     @pytest.mark.name_error
     @pytest.mark.parametrize("name, email, phone",[("","lusine@example.com", "0987654321"), ("  ","lusine@example.com", "0987654321")])
     def test_name_error_elemenet_exists(self, name, email, phone):
@@ -21,6 +25,8 @@ class TestNegativeContacts(Base):
         el = contact.get_element_by_xpath(contact.name_input_error_xpath)
         assert el is not None, 'Name error element does not exist'
     
+    @allure.title("Test email error popup")
+    @allure.description("Show error popup with email error message")
     @pytest.mark.email_error
     @pytest.mark.parametrize("name, email, phone",[("Lusine","", "0987654321"),("Luso","lusineexample.com", "0987654321")])
     def test_email_error_elemenet_exists(self, name, email, phone):
@@ -33,6 +39,8 @@ class TestNegativeContacts(Base):
         el = contact.get_element_by_xpath(contact.email_input_error_xpath)
         assert el is not None, 'Email error element does not exist'
 
+    @allure.title("Test phone error popup")
+    @allure.description("Show error popup with phone error message")
     @pytest.mark.parametrize("name, email, phone",[("Lusine","lusine@example.com", ""),("Lusine","lusine@example.com", "sdfghj")])
     def test_phone_error_elemenet_exists(self, name, email, phone):
         driver = self.driver
